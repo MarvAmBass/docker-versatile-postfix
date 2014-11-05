@@ -53,8 +53,8 @@ RUN sed -i 's/^OPTIONS=/#OPTIONS=/g' /etc/default/saslauthd
 RUN echo 'OPTIONS="-c -m /var/spool/postfix/var/run/saslauthd"' >> /etc/default/saslauthd
 
 # dkim settings
-ADD mail.private /etc/postfix/dkim.key
-RUN echo "KeyFile                 /etc/postfix/dkim.key" >> /etc/opendkim.conf
+RUN mkdir -p /etc/postfix/dkim
+RUN echo "KeyFile                 /etc/postfix/dkim/dkim.key" >> /etc/opendkim.conf
 RUN echo "Selector                mail" >> /etc/opendkim.conf
 RUN echo "SOCKET                  inet:8891@localhost" >> /etc/opendkim.conf
 
