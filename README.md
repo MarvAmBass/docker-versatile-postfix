@@ -15,15 +15,19 @@ Otherwise all mails will get lost after you delete your container.
 To create a new postfix server for your domain you should use the following commands:
 
 	docker run -p 25:25 -v /maildirs:/var/mail \
+		-v /dkim:/etc/postfix/dkim/ \
 		marvambass/versatile-postfix \
 		yourdomain.com \
 		user1:password \
 		user2:password \
 		userN:password
 
-this creates a new smtp server which listens on port 25, stores mail beneath /mailsdirs
-and has serveral user accounts like user1 with password "password" and 
-a mail address user1@yourdomain.com
+this creates a new smtp server which listens on port _25_, stores mail beneath _/mailsdirs_.
+
+The _/dkim_ directory has to contain a DKIM-Key _(see above)_ with the name __dkim.key__
+
+It has serveral user accounts like _user1_ with password "_password_" and 
+a mail address _user1@yourdomain.com_
 
 ## DKIM
 
@@ -36,7 +40,8 @@ This generates a new certificate, in testmode (like most of the used certs) for 
 
 	opendkim-genkey -t -s mail -d example.com
 
-Just put the file _mail.private_ besides the Dockerfile. It will be imported into the container during the build process.
+Just put the file _mail.private_ as _dkim.key_ inside the dkim directory you'll later link into the container using _-v_.
+
 The _mail.txt_ should be imported into the DNS System
 
 ## Testing SMTP
