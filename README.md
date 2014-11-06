@@ -38,9 +38,9 @@ To generate those keys you'll need the opendkim tools
 
 	apt-get install opendkim-tools
 
-This generates a new certificate, in testmode (like most of the used certs) for @example.com
+This generates a new certificate for @example.com. If you want to Test DKIM first, add _-t_ argument which stands for test-mode.
 
-	opendkim-genkey -t -s mail -d example.com
+	opendkim-genkey -s mail -d example.com
 
 Just put the file _mail.private_ as _dkim.key_ inside the dkim directory you'll later link into the container using _-v_.
 
