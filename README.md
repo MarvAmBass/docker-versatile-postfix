@@ -79,5 +79,5 @@ The _mail.txt_ should be imported into the DNS System
 
 Just use the following command to build and publish your Docker Container.
 
-  docker build -t username/versatile-postfix .
-  docker push username/versatile-postfix
+    docker build -t username/versatile-postfix .
+    docker push username/versatile-postfix
