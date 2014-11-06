@@ -38,13 +38,15 @@ To generate those keys you'll need the opendkim tools
 
 	apt-get install opendkim-tools
 
-This generates a new certificate for @example.com. If you want to Test DKIM first, add _-t_ argument which stands for test-mode.
+This generates a new certificate for @example.com with selector (_-s_) _mail_. If you want to Test DKIM first, add _-t_ argument which stands for test-mode.
 
 	opendkim-genkey -s mail -d example.com
 
 Just put the file _mail.private_ as _dkim.key_ inside the dkim directory you'll later link into the container using _-v_.
 
-The _mail.txt_ should be imported into the DNS System
+The _mail.txt_ should be imported into the DNS System. Add a new _TXT-Record_ for _mail_.\_domainkey [selector.\_domainkey]. And add as value the String starting "_v=DKIM1;..._" from the _mail.txt_ file.
+
+Thats all you need for DKIM
 
 ## Testing SMTP
 
