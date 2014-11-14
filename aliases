@@ -1,2 +1,4 @@
 # See man 5 aliases for format
-postmaster: root
+#postmaster: root
+
+# you can only use it if you build the container yourself!
