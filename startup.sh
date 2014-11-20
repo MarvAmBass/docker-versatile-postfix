@@ -33,21 +33,21 @@ fi
 
 if [ ! -f /etc/default/saslauthd ]
 then
-  >&2 echo "you're not inside a valid docker container"
+  >&2 echo ">> you're not inside a valid docker container"
   exit 1;
 fi
 
-echo "setting up postfix for: $1"
+echo ">> setting up postfix for: $1"
 
 # add domain
 postconf -e myhostname="$1"
 postconf -e mydestination="$1"
-echo "$1" > /etc/mailname
-echo "Domain $1" >> /etc/opendkim.conf
+echo "  >> $1" > /etc/mailname
+echo "  >> Domain $1" >> /etc/opendkim.conf
 
 if [ ${#@} -gt 1 ]
 then
-  echo "adding users..."
+  echo ">> adding users..."
 
   # all arguments but skip first argumenti
   i=0
@@ -56,7 +56,7 @@ then
     if [ $i -gt 0 ] && [ "$ARG" != "${ARG/://}" ]
     then
       USER=`echo "$ARG" | cut -d":" -f1`
-      echo "  adding user: $USER"
+      echo "    >> adding user: $USER"
       useradd -s /bin/bash $USER
       echo "$ARG" | chpasswd
       mkdir /var/spool/mail/$USER
@@ -67,6 +67,28 @@ then
   done
 
 fi
+
+# add dkim if necessary
+if [ ! -f /etc/postfix/dkim/dkim.key ]
+then
+  echo ">> no dkim.key found - generate one..."
+  opendkim-genkey -s mail -d $1
+  mv mail.private dkim.key
+  echo ">> printing out public dkim key:"
+  cat mail.txt
+  echo ">> please at this key to your DNS System"
+fi
+
+# add aliases
+> /etc/aliases
+if [ ! -z ${ALIASES+x} ]
+then
+  IFS=';' read -ra ADDR <<< "$ALIASES"
+  for i in "${ADDR[@]}"; do
+    echo "$i" >> /etc/aliases
+  done
+fi
+newaliases
 
 # starting services
 service rsyslog start

@@ -15,7 +15,9 @@ RUN debconf-set-selections preseed.txt
 RUN apt-get update && apt-get install -y \
     postfix \
     opendkim \
-    mailutils
+    mailutils \
+    opendkim-tools \
+    sasl2-bin
 
 ## Configure Postfix
 
@@ -23,14 +25,7 @@ RUN postconf -e smtpd_banner="\$myhostname ESMTP"
 RUN postconf -e mail_spool_directory="/var/spool/mail/"
 RUN postconf -e mailbox_command=""
 
-# add aliases
-ADD aliases /etc/aliases
-RUN chown root:root /etc/aliases
-RUN newaliases
-
-## Install smtp auth
-RUN apt-get update && apt-get install -y \
-    sasl2-bin
+## Configure Sasl2
 
 # config
 RUN sed -i 's/^START=.*/START=yes/g' /etc/default/saslauthd

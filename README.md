@@ -3,6 +3,11 @@ _maintained by MarvAmBass_
 
 View in Docker Registry [marvambass/versatile-postfix](https://registry.hub.docker.com/u/marvambass/versatile-postfix/)
 
+## Environment variables and defaults
+
+* ALIASES
+ * optional, no default, example usage: "postmaster:root;john:root;j.doe:root"
+
 ## Running the Mailserver
 
 This Dockerfile is build to be as versatile as possible.
@@ -28,12 +33,17 @@ this creates a new smtp server which listens on port _25_, stores mail beneath _
 
 The _/dkim_ directory has to contain a DKIM-Key _(see above)_ with the name __dkim.key__
 
-It has serveral user accounts like _user1_ with password "_password_" and 
+It has serveral user accounts like _user1_ with password "_password_" and
 a mail address _user1@yourdomain.com_
 
 ## DKIM
 
 This Server uses DKIM by default. So we need our DKIM Keys.
+If you don't have a DKIM Key, the Server will generate it on the first start.
+Just be sure, that you make the directory ___/etc/postfix/dkim/___ available and
+install the logged public key to your DNS System
+
+### More about DKIM
 To generate those keys you'll need the opendkim tools
 
 	apt-get install opendkim-tools
