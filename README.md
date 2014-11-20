@@ -23,6 +23,7 @@ To create a new postfix server for your domain you should use the following comm
 
 	docker run -p 25:25 -v /maildirs:/var/mail \
 		-v /dkim:/etc/postfix/dkim/ \
+		-e 'ALIASES=postmaster:root;hostmaster:root;webmaster:root' \
 		marvambass/versatile-postfix \
 		yourdomain.com \
 		user1:password \
