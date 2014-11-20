@@ -86,17 +86,22 @@ then
   IFS=';' read -ra ADDR <<< "$ALIASES"
   for i in "${ADDR[@]}"; do
     echo "$i" >> /etc/aliases
+    echo ">> adding $i to /etc/aliases"
   done
 fi
+echo ">> the new /etc/aliases file:"
+cat /etc/aliases
 newaliases
 
 # starting services
+echo ">> starting the services"
 service rsyslog start
 service opendkim start
 service saslauthd start
 service postfix start
 
 # print logs
+echo ">> printing the logs"
 touch /var/log/mail.log /var/log/mail.err /var/log/mail.warn
 chmod a+rw /var/log/mail.*
 tail -F /var/log/mail.*
