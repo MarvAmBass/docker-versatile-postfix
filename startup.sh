@@ -81,6 +81,7 @@ then
 fi
 echo ">> change user and group of /etc/postfix/dkim/dkim.key to opendkim"
 chown opendkim:opendkim /etc/postfix/dkim/dkim.key
+chmod o=- /etc/postfix/dkim/dkim.key
 
 # add aliases
 > /etc/aliases
