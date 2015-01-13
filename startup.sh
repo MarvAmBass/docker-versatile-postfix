@@ -68,23 +68,33 @@ then
 
     i=`expr $i + 1`
   done
-
 fi
 
-# add dkim if necessary
-if [ ! -f /etc/postfix/dkim/dkim.key ]
+# DKIM
+if [ -z ${DISABLE_DKIM+x} ]
 then
-  echo ">> no dkim.key found - generate one..."
-  opendkim-genkey -s mail -d $1
-  mv mail.private /etc/postfix/dkim/dkim.key
-  echo ">> printing out public dkim key:"
-  cat mail.txt
-  mv mail.txt /etc/postfix/dkim/dkim.public
-  echo ">> please at this key to your DNS System"
+  echo ">> enable DKIM support"
+  
+  postconf -e milter_default_action="accept"
+  postconf -e milter_protocol="2"
+  postconf -e smtpd_milters="inet:localhost:8891"
+  postconf -e non_smtpd_milters="inet:localhost:8891"
+  
+  # add dkim if necessary
+  if [ ! -f /etc/postfix/dkim/dkim.key ]
+  then
+    echo ">> no dkim.key found - generate one..."
+    opendkim-genkey -s mail -d $1
+    mv mail.private /etc/postfix/dkim/dkim.key
+    echo ">> printing out public dkim key:"
+    cat mail.txt
+    mv mail.txt /etc/postfix/dkim/dkim.public
+    echo ">> please at this key to your DNS System"
+  fi
+  echo ">> change user and group of /etc/postfix/dkim/dkim.key to opendkim"
+  chown opendkim:opendkim /etc/postfix/dkim/dkim.key
+  chmod o=- /etc/postfix/dkim/dkim.key
 fi
-echo ">> change user and group of /etc/postfix/dkim/dkim.key to opendkim"
-chown opendkim:opendkim /etc/postfix/dkim/dkim.key
-chmod o=- /etc/postfix/dkim/dkim.key
 
 # add aliases
 > /etc/aliases
@@ -103,7 +113,12 @@ newaliases
 # starting services
 echo ">> starting the services"
 service rsyslog start
-service opendkim start
+
+if [ -z ${DISABLE_DKIM+x} ]
+then
+  service opendkim start
+fi
+
 service saslauthd start
 service postfix start
 

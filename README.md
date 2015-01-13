@@ -9,8 +9,12 @@ View in GitHub [MarvAmBass/docker-versatile-postfix](https://github.com/MarvAmBa
 
 ## Environment variables and defaults
 
-* ALIASES
+* __ALIASES__
  * optional, no default, example usage: "postmaster:root;john:root;j.doe:root"
+* __DISABLE\_DKIM__
+ * default: not set - if set to any value the DKIM Signing will be deactivated
+
+
 
 ## Running the Mailserver
 

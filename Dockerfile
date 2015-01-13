@@ -56,11 +56,6 @@ RUN echo "SOCKET                  inet:8891@localhost" >> /etc/opendkim.conf
 RUN sed -i 's/^SOCKET=/#SOCKET=/g' /etc/default/opendkim
 RUN echo 'SOCKET="inet:8891@localhost"' >> /etc/default/opendkim
 
-RUN postconf -e milter_default_action="accept"
-RUN postconf -e milter_protocol="2"
-RUN postconf -e smtpd_milters="inet:localhost:8891"
-RUN postconf -e non_smtpd_milters="inet:localhost:8891"
-
 ## FINISHED
 
 # Postfix Ports
