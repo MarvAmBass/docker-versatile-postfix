@@ -107,3 +107,9 @@ Thats all you need for DKIM
 	quit
 	221 Bye
 	Connection closed by foreign host.
+
+## Links
+
+[DKIM Keycheck](http://dkimcore.org/c/keycheck)
+
+[DKIM more Infos and signature check](http://www.elandsys.com/resources/mail/dkim/opendkim.html)
