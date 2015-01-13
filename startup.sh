@@ -77,6 +77,13 @@ if [ -z ${DISABLE_DKIM+x} ]
 then
   echo ">> enable DKIM support"
   
+  if [ -z ${DKIM_CANONICALIZATION+x} ]
+  then
+    DKIM_CANONICALIZATION="relaxed"
+  fi
+  
+  echo "Canonicalization $DKIM_CANONICALIZATION" >> /etc/opendkim.conf
+  
   postconf -e milter_default_action="accept"
   postconf -e milter_protocol="2"
   postconf -e smtpd_milters="inet:localhost:8891"
