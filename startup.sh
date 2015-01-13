@@ -59,7 +59,10 @@ then
       echo "    >> adding user: $USER"
       useradd -s /bin/bash $USER
       echo "$ARG" | chpasswd
-      mkdir /var/spool/mail/$USER
+      if [ ! -d /var/spool/mail/$USER ]
+      then
+        mkdir /var/spool/mail/$USER
+      fi
       chown $USER:mail /var/spool/mail/$USER
     fi
 
