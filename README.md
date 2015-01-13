@@ -1,7 +1,11 @@
 # Versatile Postfix Mail Server
 _maintained by MarvAmBass_
 
+[FAQ - All you need to know about the marvambass Containers](http://marvin.im/posts/IT/Docker/marvambass/FAQ__All_you_need_to_know_about_the_marvambass_Containers.html)
+
 View in Docker Registry [marvambass/versatile-postfix](https://registry.hub.docker.com/u/marvambass/versatile-postfix/)
+
+View in GitHub [MarvAmBass/docker-versatile-postfix](https://github.com/MarvAmBass/docker-versatile-postfix/)
 
 ## Environment variables and defaults
 
@@ -26,6 +30,7 @@ To create a new postfix server for your domain you should use the following comm
 		-e 'ALIASES=postmaster:root;hostmaster:root;webmaster:root' \
 		marvambass/versatile-postfix \
 		yourdomain.com \
+		user:password \
 		user1:password \
 		user2:password \
 		userN:password
@@ -59,22 +64,22 @@ The _mail.txt_ should be imported into the DNS System. Add a new _TXT-Record_ fo
 
 Thats all you need for DKIM
 
-## Testing SMTP
+## Testing SMTP Mail recivieing
 
-	$ mailx -r "sender@yourdomain.tld" -s "Test Mail Subject" recipient@domain.tld < /etc/hosts
+	$ mailx -r "sender@example.com" -s "Test Mail Subject" user1@yourdomain.com < /etc/hosts
 
-## Testing the SMTP Auth:
+## Testing the SMTP Auth and SMTP sending via telnet:
 
 	$ echo -ne '\0user\0password' | openssl enc -base64
 	AHVzZXIAcGFzc3dvcmQ=
 
 	$ telnet 127.0.0.1 25
 	Trying 192.168.4.55...
-	Connected to mail.yourserver.tld.
+	Connected to yourdomain.com.
 	Escape character is '^]'.
-	220 mail.yourserver.tld ESMTP
+	220 yourdomain.com ESMTP
 	ehlo test
-	250-mail.yourserver.tld
+	250-yourdomain.com
 	250-PIPELINING
 	250-SIZE 10240000
 	250-VRFY
@@ -84,13 +89,16 @@ Thats all you need for DKIM
 	250 8BITMIME
 	auth plain AHVzZXIAcGFzc3dvcmQ=
 	235 Authentication successful
+	mail from: user@yourdomain.com
+	250 2.1.0 Ok
+	rcpt to: mail@example.com
+	250 2.1.5 Ok
+	data
+	354 End data with <CR><LF>.<CR><LF>
+	Hi there
+	this is just a basic test message
+	.
+	250 2.0.0 Ok: queued as 2E7FB27F
 	quit
 	221 Bye
 	Connection closed by foreign host.
-
-## Building the Dockerfile yourself
-
-Just use the following command to build and publish your Docker Container.
-
-    docker build -t username/versatile-postfix .
-    docker push username/versatile-postfix
