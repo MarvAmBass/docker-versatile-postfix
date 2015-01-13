@@ -79,7 +79,7 @@ then
   
   if [ -z ${DKIM_CANONICALIZATION+x} ]
   then
-    DKIM_CANONICALIZATION="relaxed"
+    DKIM_CANONICALIZATION="simple"
   fi
   
   echo "Canonicalization $DKIM_CANONICALIZATION" >> /etc/opendkim.conf
