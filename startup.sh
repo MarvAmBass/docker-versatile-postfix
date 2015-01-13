@@ -73,9 +73,10 @@ if [ ! -f /etc/postfix/dkim/dkim.key ]
 then
   echo ">> no dkim.key found - generate one..."
   opendkim-genkey -s mail -d $1
-  mv mail.private dkim.key
+  mv mail.private /etc/postfix/dkim/dkim.key
   echo ">> printing out public dkim key:"
   cat mail.txt
+  mv mail.txt /etc/postfix/dkim/dkim.public
   echo ">> please at this key to your DNS System"
 fi
 
