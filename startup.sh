@@ -79,6 +79,8 @@ then
   mv mail.txt /etc/postfix/dkim/dkim.public
   echo ">> please at this key to your DNS System"
 fi
+echo ">> change user and group of /etc/postfix/dkim/dkim.key to opendkim"
+chown opendkim:opendkim /etc/postfix/dkim/dkim.key
 
 # add aliases
 > /etc/aliases
