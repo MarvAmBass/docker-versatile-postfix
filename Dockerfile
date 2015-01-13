@@ -49,21 +49,17 @@ RUN echo 'OPTIONS="-c -m /var/spool/postfix/var/run/saslauthd"' >> /etc/default/
 
 # dkim settings
 RUN mkdir -p /etc/postfix/dkim
-RUN mkdir -p /var/spool/postfix/var/run/opendkim/ && chown opendkim.opendkim /var/spool/postfix/var/run/opendkim/
-
-RUN adduser postfix opendkim
-
 RUN echo "KeyFile                 /etc/postfix/dkim/dkim.key" >> /etc/opendkim.conf
 RUN echo "Selector                mail" >> /etc/opendkim.conf
-RUN echo "SOCKET                  local:/var/spool/postfix/var/run/opendkim/opendkim.sock" >> /etc/opendkim.conf
+RUN echo "SOCKET                  inet:8891@localhost" >> /etc/opendkim.conf
 
 RUN sed -i 's/^SOCKET=/#SOCKET=/g' /etc/default/opendkim
-RUN echo 'SOCKET="local:/var/spool/postfix/var/run/opendkim/opendkim.sock"' >> /etc/default/opendkim
+RUN echo 'SOCKET="inet:8891@localhost"' >> /etc/default/opendkim
 
 RUN postconf -e milter_default_action="accept"
 RUN postconf -e milter_protocol="2"
-RUN postconf -e smtpd_milters="unix:/var/spool/postfix/var/run/opendkim/opendkim.sock"
-RUN postconf -e non_smtpd_milters="unix:/var/spool/postfix/var/run/opendkim/opendkim.sock"
+RUN postconf -e smtpd_milters="inet:localhost:8891"
+RUN postconf -e non_smtpd_milters="inet:localhost:8891"
 
 ## FINISHED
 
