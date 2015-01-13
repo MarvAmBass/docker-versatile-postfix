@@ -63,7 +63,9 @@ then
       then
         mkdir /var/spool/mail/$USER
       fi
-      chown $USER:mail /var/spool/mail/$USER
+      chown -R $USER:mail /var/spool/mail/$USER
+      chmod -R a=rwx /var/spool/mail/$USER
+      chmod -R o=- /var/spool/mail/$USER
     fi
 
     i=`expr $i + 1`
