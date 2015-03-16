@@ -1,7 +1,16 @@
-# Versatile Postfix Mail Server
+# Versatile Postfix Mail Server (marvambass/versatile-postfix)
 _maintained by MarvAmBass_
 
-[FAQ - All you need to know about the marvambass Containers](http://marvin.im/posts/IT/Docker/marvambass/FAQ__All_you_need_to_know_about_the_marvambass_Containers.html)
+[FAQ - All you need to know about the marvambass Containers]https://marvin.im/docker-faq-all-you-need-to-know-about-the-marvambass-containers/)
+
+## What is it
+
+This Dockerfile (available as ___marvambass/versatile-postfix___) gives you a completly versatile postfix
+mailserver.
+
+It signs outgoing mails with DKIM by default. You can initially create one Domain with different users with there passwords.
+
+This is not a POP3 or IMAP server, you will get incomming E-Mails in the __Maildir__ format. Read it with less or link a IMAP Server to the volume.
 
 View in Docker Registry [marvambass/versatile-postfix](https://registry.hub.docker.com/u/marvambass/versatile-postfix/)
 
