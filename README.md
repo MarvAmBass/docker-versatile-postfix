@@ -8,7 +8,7 @@ _maintained by MarvAmBass_
 This Dockerfile (available as ___marvambass/versatile-postfix___) gives you a completly versatile postfix
 mailserver.
 
-It signs outgoing mails with DKIM by default. You can create one Domain with different users with there passwords. For multiple Domains you need to use multiple containers or create your own fork of this project.
+It signs outgoing mails with DKIM by default. You can create one Domain with different users with their passwords. For multiple Domains you need to use multiple containers or create your own fork of this project.
 
 This is not a POP3 or IMAP server, you will get incomming E-Mails in the __Maildir__ format. Read it with less or link a IMAP Server to the volume.
 
