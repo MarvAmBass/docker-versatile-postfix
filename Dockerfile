@@ -37,6 +37,7 @@ RUN echo "pwcheck_method: saslauthd" > /etc/postfix/sasl/smtpd.conf; \
 
 # postfix settings
 RUN postconf -e smtpd_sasl_auth_enable="yes"; \
+    postconf -e smtp_tls_security_level="may"; \
     postconf -e smtpd_recipient_restrictions="permit_mynetworks permit_sasl_authenticated reject_unauth_destination"; \
     postconf -e smtpd_helo_restrictions="permit_sasl_authenticated, permit_mynetworks, reject_invalid_hostname, reject_unauth_pipelining, reject_non_fqdn_hostname"
 
