@@ -26,6 +26,8 @@ View in GitHub [MarvAmBass/docker-versatile-postfix](https://github.com/MarvAmBa
  * default: not set - if set to any value the DKIM Signing will be deactivated
 * `DKIM_CANONICALIZATION`
  * default: `simple` - can be either `relaxed` or `simple`
+* `DKIM_SELECTOR`
+ * default: `mail`, you can customize DKIM selector name
 
 
 ## Running the Mailserver

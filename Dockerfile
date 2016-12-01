@@ -49,10 +49,9 @@ RUN sed -i 's/^OPTIONS=/#OPTIONS=/g' /etc/default/saslauthd; \
     echo 'OPTIONS="-c -m /var/spool/postfix/var/run/saslauthd"' >> /etc/default/saslauthd
 
 # dkim settings
-RUN mkdir -p /etc/postfix/dkim; \
-    echo "KeyFile                 /etc/postfix/dkim/dkim.key" >> /etc/opendkim.conf; \
-    echo "Selector                mail" >> /etc/opendkim.conf; \
-    echo "SOCKET                  inet:8891@localhost" >> /etc/opendkim.conf
+RUN mkdir -p /etc/postfix/dkim
+RUN echo "Include /etc/opendkim/custom.conf" >> /etc/opendkim.conf
+RUN mkdir -p /etc/opendkim/
 
 RUN sed -i 's/^SOCKET=/#SOCKET=/g' /etc/default/opendkim; \
     echo 'SOCKET="inet:8891@localhost"' >> /etc/default/opendkim
@@ -65,6 +64,8 @@ EXPOSE 25
 # Add startup script
 ADD startup.sh /opt/startup.sh
 RUN chmod a+x /opt/startup.sh
+
+ENV DKIM_SELECTOR=mail
 
 # Docker startup
 ENTRYPOINT ["/opt/startup.sh"]
