@@ -101,7 +101,8 @@ then
     echo ">> please at this key to your DNS System"
   fi
   echo ">> change user and group of /etc/postfix/dkim/dkim.key to opendkim"
-  chown opendkim:opendkim /etc/postfix/dkim/dkim.key
+  chown -R opendkim:opendkim /etc/postfix/dkim/
+  chmod -R o-rwX /etc/postfix/dkim/
   chmod o=- /etc/postfix/dkim/dkim.key
 fi
 
