@@ -93,17 +93,25 @@ then
   if [ ! -f /etc/postfix/dkim/dkim.key ]
   then
     echo ">> no dkim.key found - generate one..."
-    opendkim-genkey -s mail -d $1
-    mv mail.private /etc/postfix/dkim/dkim.key
+    opendkim-genkey -s $DKIM_SELECTOR -d $1
+    mv $DKIM_SELECTOR.private /etc/postfix/dkim/dkim.key
     echo ">> printing out public dkim key:"
-    cat mail.txt
-    mv mail.txt /etc/postfix/dkim/dkim.public
+    cat $DKIM_SELECTOR.txt
+    mv $DKIM_SELECTOR.txt /etc/postfix/dkim/dkim.public
     echo ">> please at this key to your DNS System"
   fi
   echo ">> change user and group of /etc/postfix/dkim/dkim.key to opendkim"
-  chown opendkim:opendkim /etc/postfix/dkim/dkim.key
+  chown -R opendkim:opendkim /etc/postfix/dkim/
+  chmod -R o-rwX /etc/postfix/dkim/
   chmod o=- /etc/postfix/dkim/dkim.key
 fi
+
+# Configure /etc/opendkim/custom.conf file
+cat <<EOF > /etc/opendkim/custom.conf
+KeyFile                 /etc/postfix/dkim/dkim.key
+Selector                $DKIM_SELECTOR
+SOCKET                  inet:8891@localhost
+EOF
 
 # add aliases
 > /etc/aliases
