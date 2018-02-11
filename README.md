@@ -29,6 +29,19 @@ View in GitHub [MarvAmBass/docker-versatile-postfix](https://github.com/MarvAmBa
 * `DKIM_SELECTOR`
  * default: `mail`, you can customize DKIM selector name
 
+__HIGH PRIORITY ENVIRONMENT VARIABLE__
+
+the following variable/s are only if you have some specific settings you need.
+They help you overwrite everything after the config was generated.
+If you can update your setting with the variables from above, it is strongly recommended to use them!
+
+_some characters might brake your configuration!_
+
+- `POSTFIX_RAW_CONFIG_<POSTFIX_SETTING_NAME>`
+    - set/edit all configurations in `/etc/postfix/main.cf` using the `POSTFIX_RAW_CONFIG_` followed by the setting name
+
+_for example: to set_ ___mynetworks_style = subnet___ _just add a environment variable_ ___POSTFIX_RAW_CONFIG_MYNETWORKS_STYLE=subnet___
+
 
 ## Running the Mailserver
 
