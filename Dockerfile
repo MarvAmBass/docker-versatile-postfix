@@ -50,6 +50,7 @@ RUN sed -i 's/^OPTIONS=/#OPTIONS=/g' /etc/default/saslauthd; \
 
 # dkim settings
 RUN mkdir -p /etc/postfix/dkim
+RUN echo "LogWhy yes" >> /etc/opendkim.conf
 RUN echo "Include /etc/opendkim/custom.conf" >> /etc/opendkim.conf
 RUN mkdir -p /etc/opendkim/
 
