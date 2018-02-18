@@ -12,13 +12,16 @@ RUN echo mail > /etc/hostname; \
 RUN debconf-set-selections preseed.txt
 
 # install
-RUN apt-get update; apt-get install -y \
-    postfix \
-    opendkim \
-    mailutils \
-    opendkim-tools \
-    sasl2-bin
-
+RUN apt-get -q -y update \
+ && apt-get -q -y install postfix \
+                          opendkim \
+                          mailutils \
+                          opendkim-tools \
+                          sasl2-bin \
+                          \
+ && apt-get -q -y clean \
+ && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+ 
 ## Configure Postfix
 
 RUN postconf -e smtpd_banner="\$myhostname ESMTP"; \
@@ -49,13 +52,13 @@ RUN sed -i 's/^OPTIONS=/#OPTIONS=/g' /etc/default/saslauthd; \
     echo 'OPTIONS="-c -m /var/spool/postfix/var/run/saslauthd"' >> /etc/default/saslauthd
 
 # dkim settings
-RUN mkdir -p /etc/postfix/dkim
-RUN echo "LogWhy yes" >> /etc/opendkim.conf
-RUN echo "Include /etc/opendkim/custom.conf" >> /etc/opendkim.conf
-RUN mkdir -p /etc/opendkim/
-
-RUN sed -i 's/^SOCKET=/#SOCKET=/g' /etc/default/opendkim; \
-    echo 'SOCKET="inet:8891@localhost"' >> /etc/default/opendkim
+RUN mkdir -p /etc/postfix/dkim \
+ && echo "LogWhy yes" >> /etc/opendkim.conf \
+ && echo "Include /etc/opendkim/custom.conf" >> /etc/opendkim.conf \
+ && mkdir -p /etc/opendkim/ \
+ \
+ && sed -i 's/^SOCKET=/#SOCKET=/g' /etc/default/opendkim \
+ && echo 'SOCKET="inet:8891@localhost"' >> /etc/default/opendkim
 
 ## FINISHED
 
