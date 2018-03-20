@@ -138,7 +138,7 @@ then
     CONFD_CONF_NAME=$(echo "$I_CONF" | cut -d'=' -f1 | sed 's/POSTFIX_RAW_CONFIG_//g' | tr '[:upper:]' '[:lower:]')
     CONFD_CONF_VALUE=$(echo "$I_CONF" | sed 's/^[^=]*=//g')
 
-    echo "$CONFD_CONF_VALUE" >> /etc/postfix/main.cf
+    echo "${CONFD_CONF_NAME} = ${CONFD_CONF_VALUE}" >> /etc/postfix/main.cf
   done
 fi
 
