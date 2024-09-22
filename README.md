@@ -37,10 +37,10 @@ If you can update your setting with the variables from above, it is strongly rec
 
 _some characters might brake your configuration!_
 
-- `POSTFIX_RAW_CONFIG_<POSTFIX_SETTING_NAME>`
-    - set/edit all configurations in `/etc/postfix/main.cf` using the `POSTFIX_RAW_CONFIG_` followed by the setting name
+- `POSTFIX_RAW_CONFIG_<POSTFIX_SETTING_NAME_CASE_SENSETIVE>`
+    - set/edit all configurations in `/etc/postfix/main.cf` using the `POSTFIX_RAW_CONFIG_` followed by the setting name (case sensetive)
 
-_for example: to set_ ___mynetworks_style = subnet___ _just add a environment variable_ ___POSTFIX_RAW_CONFIG_MYNETWORKS_STYLE=subnet___
+_for example: to set_ ___mynetworks_style = subnet___ _just add a environment variable_ ___POSTFIX_RAW_CONFIG_mynetworks_style=subnet___
 
 
 ## Running the Mailserver
