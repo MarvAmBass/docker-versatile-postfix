@@ -135,7 +135,7 @@ then
   echo -e "\n## POSTFIX_RAW_CONFIG ##\n" >> /etc/postfix/main.cf
   env | grep '^POSTFIX_RAW_CONFIG_' | while read I_CONF
   do
-    CONFD_CONF_NAME=$(echo "$I_CONF" | cut -d'=' -f1 | sed 's/POSTFIX_RAW_CONFIG_//g' | tr '[:upper:]' '[:lower:]')
+    CONFD_CONF_NAME=$(echo "$I_CONF" | cut -d'=' -f1 | sed 's/POSTFIX_RAW_CONFIG_//g')
     CONFD_CONF_VALUE=$(echo "$I_CONF" | sed 's/^[^=]*=//g')
 
     echo "${CONFD_CONF_NAME} = ${CONFD_CONF_VALUE}" >> /etc/postfix/main.cf
